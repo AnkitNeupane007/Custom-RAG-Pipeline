@@ -1,15 +1,14 @@
-# Custom RAG Project
+# 🛠️ Bespoke RAG Architecture (From Scratch)
 
-This is a custom Retrieval-Augmented Generation (RAG) backend designed to process PDF documents, generate embeddings, and provide an intelligent LLM interface for querying the ingested data.
+This repository houses a **fully custom-built** Retrieval-Augmented Generation (RAG) backend. Deliberately avoiding heavy, black-box frameworks (like LangChain or LlamaIndex), this system is engineered entirely from the ground up, component by component. By writing the ingestion, embedding, vector search, and LLM orchestration layers natively, this project achieves granular, absolute control over every step of the RAG pipeline—resulting in highly optimized, transparent, and tailor-made behavior.
 
-## 🚀 Features
+## 🚀 Hand-Crafted Features
 
-- **PDF Ingestion & Chunking:** Extracts text from PDFs (using PyMuPDF/`fitz`) and splits it into manageable chunks for accurate retrieval.
-- **Embeddings:** Uses Hugging Face models to generate highly relevant semantic embeddings for text chunks.
-- **Vector Database:** Integrates with **Pinecone** to store and search through chunk embeddings efficiently.
-- **Relational Database:** Uses asynchronous PostgreSQL (`asyncpg`) to manage document metadata and application state.
-- **LLM Agent:** Leverages targeted LLM inference (via Groq) to generate accurate, context-aware answers based on the retrieved documents.
-- **RESTful API:** Built with **FastAPI** to provide fast and fully-typed async endpoints.
+- **Custom PDF Ingestion & Purpose-Built Chunking:** Utilizes direct extraction via PyMuPDF (`fitz`) paired with a custom chunking algorithm tailored exactly to our retrieval needs—completely avoiding generic off-the-shelf text splitters.
+- **Direct Embedding Orchestration:** Bare-metal integration with Hugging Face models, ensuring complete control over tokenization strategies and vector generation without intermediate abstractions.
+- **Native Dual-Database Architecture:** A meticulously synced setup bridging raw vector similarity search in **Pinecone** with an **asynchronous PostgreSQL** (`asyncpg`) database acting as the absolute source of truth for complex document state and metadata.
+- **Framework-less LLM Agent:** A hand-rolled, highly-specific LLM agent leveraging the Groq API. Context-injection, prompt engineering, and response synthesis are entirely custom-written for minimal latency and maximum precision.
+- **Raw, High-Performance API:** Built directly on top of **FastAPI** for pure, zero-bloat asynchronous endpoints.
 
 ## 🛠️ Tech Stack
 
