@@ -1,5 +1,13 @@
 # 🛠️ Bespoke RAG Architecture (From Scratch)
 
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Pinecone-000000?style=for-the-badge&logo=pinecone&logoColor=white" alt="Pinecone" />
+  <img src="https://img.shields.io/badge/Hugging_Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face" />
+</p>
+
 This repository houses a **fully custom-built** Retrieval-Augmented Generation (RAG) backend. Deliberately avoiding heavy, black-box frameworks (like LangChain or LlamaIndex), this system is engineered entirely from the ground up, component by component. By writing the ingestion, embedding, vector search, and LLM orchestration layers natively, this project achieves granular, absolute control over every step of the RAG pipeline—resulting in highly optimized, transparent, and tailor-made behavior.
 
 ## 🚀 Hand-Crafted Features
@@ -61,3 +69,49 @@ backend/
 2. **Embedding:** `embedder.py` translates the text chunks into vector representations.
 3. **Storage:** The raw text and metadata are saved in Postgres, while the vector embeddings are upserted into Pinecone.
 4. **Querying:** When a user asks a question, the agent embeds the query, searches Pinecone for the most relevant context, and uses the LLM to formulate an informed response.
+
+## 🔌 API Routes
+
+### 1. Ingest Document (`POST /ingest-document`)
+
+Responsible for receiving a PDF, generating text chunks, storing them in PostgreSQL, creating embeddings, and upserting the vectors into Pinecone.
+
+**Input (Form Data):**
+
+- `file` (File): The PDF document to ingest.
+- `document_id` (str): Unique identifier for the document.
+- `strategy` (str, optional): Chunking strategy (default: `"paragraph"`).
+- `chunk_size` (int, optional): Size of text chunks (default: `100`).
+- `overlap` (int, optional): Overlap between chunks (default: `20`).
+
+**Output (JSON):**
+
+```json
+{
+  "status": "success",
+  "message": "Successfully ingested 25 chunks for document doc-123."
+}
+```
+
+### 2. Query Document (`POST /query-document`)
+
+Responsible for taking a natural language query, converting it to an embedding, retrieving similar document contexts from Pinecone, and generating an LLM response.
+
+**Input (JSON):**
+
+```json
+{
+  "query": "What are the main skills listed in the resume?",
+  "top_k": 5,
+  "document_id": "doc-123"
+}
+```
+
+**Output (JSON):**
+
+```json
+{
+  "status": "success",
+  "response_text": "Based on the provided document, the main skills include Python, FastAPI, and Postgres..."
+}
+```
